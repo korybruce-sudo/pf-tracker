@@ -33,19 +33,19 @@
     }
     header {
       text-align: center;
-      margin-bottom: 20px;
-      padding-top: 10px;
+      margin-bottom: 16px;
+      padding-top: 6px;
     }
     header h1 {
-      font-size: 1.4rem;
+      font-size: 1.35rem;
       font-weight: 700;
       color: #ffffff;
       letter-spacing: -0.5px;
     }
     header p {
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       color: var(--text-muted);
-      margin-top: 4px;
+      margin-top: 2px;
     }
     /* Tab Navigation */
     .tab-bar {
@@ -53,7 +53,7 @@
       gap: 6px;
       overflow-x: auto;
       padding-bottom: 8px;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
       scrollbar-width: none;
     }
     .tab-bar::-webkit-scrollbar { display: none; }
@@ -62,9 +62,9 @@
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       color: var(--text-muted);
-      padding: 8px 14px;
+      padding: 8px 12px;
       border-radius: 20px;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s ease;
@@ -75,20 +75,20 @@
       border-color: var(--accent);
       box-shadow: 0 0 12px var(--accent-glow);
     }
-    /* Rest Timer Floating Widget */
+    /* Rest Timer Floating Banner */
     .timer-banner {
       background: #111827;
       border: 1px solid var(--accent);
       border-radius: var(--radius);
-      padding: 12px 16px;
+      padding: 10px 14px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     }
     .timer-display {
-      font-size: 1.5rem;
+      font-size: 1.4rem;
       font-weight: 800;
       font-variant-numeric: tabular-nums;
       color: #38bdf8;
@@ -97,67 +97,65 @@
       background: var(--accent);
       border: none;
       color: white;
-      padding: 6px 12px;
+      padding: 5px 10px;
       border-radius: 6px;
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       font-weight: 600;
       cursor: pointer;
-      margin-left: 6px;
+      margin-left: 4px;
     }
-    .timer-controls button.cancel {
-      background: #475569;
-    }
+    .timer-controls button.cancel { background: #475569; }
     /* Exercise Card */
     .exercise-card {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: var(--radius);
-      padding: 14px;
-      margin-bottom: 14px;
+      padding: 12px;
+      margin-bottom: 12px;
     }
     .ex-header {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
     .ex-title {
-      font-size: 1.02rem;
+      font-size: 0.98rem;
       font-weight: 700;
       color: #fff;
     }
     .ex-equip {
-      font-size: 0.78rem;
+      font-size: 0.75rem;
       color: #38bdf8;
-      margin-top: 2px;
+      margin-top: 1px;
     }
     .tier-tag {
-      font-size: 0.68rem;
+      font-size: 0.65rem;
       background: #0369a1;
       color: #e0f2fe;
-      padding: 2px 7px;
+      padding: 2px 6px;
       border-radius: 4px;
       font-weight: 600;
       text-transform: uppercase;
     }
     .ex-meta {
-      font-size: 0.78rem;
+      font-size: 0.75rem;
       color: var(--text-muted);
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     /* Set Rows */
     .set-row {
       display: grid;
-      grid-template-columns: 32px 1fr 1fr 40px;
-      gap: 8px;
+      grid-template-columns: 28px 1fr 1fr 38px;
+      gap: 6px;
       align-items: center;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       background: rgba(15, 23, 42, 0.6);
-      padding: 6px 10px;
+      padding: 5px 8px;
       border-radius: 8px;
     }
     .set-num {
-      font-size: 0.78rem;
+      font-size: 0.75rem;
       font-weight: 700;
       color: var(--text-muted);
       text-align: center;
@@ -168,7 +166,7 @@
       border-radius: 6px;
       color: #fff;
       font-size: 0.85rem;
-      padding: 6px 8px;
+      padding: 6px 6px;
       text-align: center;
       width: 100%;
     }
@@ -177,7 +175,7 @@
       border-color: var(--accent);
     }
     .check-btn {
-      height: 32px;
+      height: 30px;
       width: 36px;
       background: #334155;
       border: none;
@@ -187,14 +185,19 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
     }
     .check-btn.completed {
       background: var(--success);
     }
-    /* Quick Actions */
+    /* Action Buttons */
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 14px;
+    }
     .btn-action {
-      display: inline-block;
       width: 100%;
       background: var(--accent);
       color: white;
@@ -205,15 +208,24 @@
       font-weight: 700;
       border: none;
       cursor: pointer;
-      margin-top: 10px;
     }
-    /* Running Log Form */
-    .form-group {
-      margin-bottom: 12px;
+    .btn-secondary {
+      width: 100%;
+      background: #334155;
+      color: #cbd5e1;
+      text-align: center;
+      padding: 9px;
+      border-radius: var(--radius);
+      font-size: 0.8rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
     }
+    /* Forms & History */
+    .form-group { margin-bottom: 10px; }
     .form-group label {
       display: block;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       color: var(--text-muted);
       margin-bottom: 4px;
     }
@@ -224,15 +236,44 @@
       border-radius: 8px;
       color: #fff;
       padding: 8px 10px;
-      font-size: 0.88rem;
+      font-size: 0.85rem;
     }
     .history-card {
       background: var(--card-bg);
+      border: 1px solid var(--card-border);
       border-left: 4px solid var(--accent);
-      padding: 10px 12px;
-      border-radius: 6px;
-      margin-bottom: 8px;
-      font-size: 0.82rem;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+    .history-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    .history-badge {
+      font-size: 0.7rem;
+      background: rgba(13, 148, 136, 0.2);
+      color: #2dd4bf;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+    .history-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 6px;
+      font-size: 0.78rem;
+    }
+    .history-table td {
+      padding: 3px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .history-table td:last-child {
+      text-align: right;
+      color: #38bdf8;
+      font-weight: 600;
     }
   </style>
 </head>
@@ -240,13 +281,13 @@
 
   <header>
     <h1>PF Fit & Run Tracker</h1>
-    <p>Upper/Lower Hypertrophy & Running Log</p>
+    <p>Upper/Lower Hypertrophy & History</p>
   </header>
 
   <!-- Rest Timer Banner -->
   <div class="timer-banner" id="timerBanner">
     <div>
-      <div style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase;">Rest Timer</div>
+      <div style="font-size: 0.68rem; color: var(--text-muted); text-transform: uppercase;">Rest Timer</div>
       <div class="timer-display" id="timerDisplay">02:00</div>
     </div>
     <div class="timer-controls">
@@ -257,16 +298,16 @@
     </div>
   </div>
 
-  <!-- Day Selection Tabs -->
+  <!-- Tab Bar -->
   <div class="tab-bar">
     <button class="tab-btn active" onclick="switchTab('upperA')">Day 1: Upper A</button>
     <button class="tab-btn" onclick="switchTab('lowerA')">Day 2: Lower A</button>
     <button class="tab-btn" onclick="switchTab('upperB')">Day 4: Upper B</button>
     <button class="tab-btn" onclick="switchTab('lowerB')">Day 5: Lower B</button>
-    <button class="tab-btn" onclick="switchTab('running')">Running Log</button>
+    <button class="tab-btn" onclick="switchTab('history')">📊 Workout Stats</button>
+    <button class="tab-btn" onclick="switchTab('running')">🏃 Run Log</button>
   </div>
 
-  <!-- Main Content Container -->
   <main id="appContainer"></main>
 
   <script>
@@ -324,12 +365,16 @@
 
     function renderRoutine(tabKey) {
       const container = document.getElementById('appContainer');
+      if (tabKey === 'history') {
+        renderHistory(container);
+        return;
+      }
       if (tabKey === 'running') {
         renderRunningLog(container);
         return;
       }
       const data = workouts[tabKey];
-      let html = `<div style="margin-bottom: 14px;"><h2 style="font-size: 1.15rem; font-weight:700;">${data.name}</h2></div>`;
+      let html = `<div style="margin-bottom: 12px;"><h2 style="font-size: 1.1rem; font-weight:700;">${data.name}</h2></div>`;
       
       data.exercises.forEach((ex, exIdx) => {
         html += `
@@ -355,8 +400,8 @@
           html += `
             <div class="set-row">
               <div class="set-num">S${s}</div>
-              <input type="text" class="set-input" placeholder="lbs" value="${valWt}" onchange="saveVal('${storageKeyWt}', this.value)" />
-              <input type="text" class="set-input" placeholder="reps" value="${valReps}" onchange="saveVal('${storageKeyReps}', this.value)" />
+              <input type="number" step="any" class="set-input" placeholder="lbs" value="${valWt}" onchange="saveVal('${storageKeyWt}', this.value)" />
+              <input type="number" class="set-input" placeholder="reps" value="${valReps}" onchange="saveVal('${storageKeyReps}', this.value)" />
               <button class="check-btn ${isDone ? 'completed' : ''}" onclick="toggleDone('${storageKeyDone}', this, ${ex.rest})">✓</button>
             </div>
           `;
@@ -364,8 +409,131 @@
         html += `</div></div>`;
       });
 
-      html += `<button class="btn-action" onclick="resetDayLogs('${tabKey}')">Clear Today's Checks for Next Session</button>`;
+      html += `
+        <div class="btn-group">
+          <button class="btn-action" onclick="finishAndSaveWorkout('${tabKey}')">💾 Finish & Save Today's Workout Stats</button>
+          <button class="btn-secondary" onclick="resetDayChecks('${tabKey}')">Reset Completion Checks Only</button>
+        </div>
+      `;
       container.innerHTML = html;
+    }
+
+    function finishAndSaveWorkout(tabKey) {
+      const data = workouts[tabKey];
+      let loggedExercises = [];
+      let totalSets = 0;
+      let totalVolumeLbs = 0;
+
+      data.exercises.forEach((ex, exIdx) => {
+        let setsData = [];
+        for (let s = 1; s <= ex.sets; s++) {
+          const wt = parseFloat(localStorage.getItem(`log_${tabKey}_ex${exIdx}_s${s}_wt`)) || 0;
+          const reps = parseInt(localStorage.getItem(`log_${tabKey}_ex${exIdx}_s${s}_reps`)) || 0;
+          const done = localStorage.getItem(`log_${tabKey}_ex${exIdx}_s${s}_done`) === 'true';
+          
+          if (reps > 0 || done) {
+            setsData.push({ set: s, wt: wt, reps: reps });
+            totalSets++;
+            totalVolumeLbs += (wt * reps);
+          }
+        }
+        if (setsData.length > 0) {
+          loggedExercises.push({ name: ex.name, sets: setsData });
+        }
+      });
+
+      if (loggedExercises.length === 0) {
+        alert("Please enter weights or reps for at least one set before saving.");
+        return;
+      }
+
+      const historyLog = JSON.parse(localStorage.getItem('workout_history') || '[]');
+      const sessionEntry = {
+        id: Date.now(),
+        date: new Date().toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }),
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        workoutName: data.name,
+        tabKey: tabKey,
+        totalSets: totalSets,
+        totalVolume: totalVolumeLbs,
+        exercises: loggedExercises
+      };
+
+      historyLog.unshift(sessionEntry);
+      localStorage.setItem('workout_history', JSON.stringify(historyLog));
+
+      // Reset checks for next session while keeping weights populated
+      for (let i = 0; i < 10; i++) {
+        for (let s = 1; s <= 6; s++) {
+          localStorage.removeItem(`log_${tabKey}_ex${i}_s${s}_done`);
+        }
+      }
+
+      alert("🎉 Workout saved successfully to your Stats!");
+      switchTab('history');
+    }
+
+    function renderHistory(container) {
+      const history = JSON.parse(localStorage.getItem('workout_history') || '[]');
+      
+      let html = `<div style="margin-bottom: 14px;"><h2 style="font-size: 1.15rem; font-weight:700;">📊 Completed Workout Stats</h2></div>`;
+
+      if (history.length === 0) {
+        html += `<div class="exercise-card" style="text-align:center; padding:24px; color:var(--text-muted);">
+          No workouts completed yet.<br><br>Hit <strong>"Finish & Save"</strong> after your workout to automatically log sets, reps, and total weight lifted here!
+        </div>`;
+      } else {
+        history.forEach((h, hIdx) => {
+          let exRows = '';
+          h.exercises.forEach(e => {
+            const setDetails = e.sets.map(s => `${s.wt} lbs × ${s.reps}`).join(' | ');
+            exRows += `
+              <tr>
+                <td><strong>${e.name}</strong></td>
+                <td>${setDetails}</td>
+              </tr>
+            `;
+          });
+
+          html += `
+            <div class="history-card">
+              <div class="history-header">
+                <div>
+                  <div style="font-weight:700; color:#fff; font-size:0.95rem;">${h.workoutName}</div>
+                  <div style="font-size:0.75rem; color:var(--text-muted);">${h.date} at ${h.time}</div>
+                </div>
+                <span class="history-badge">${h.totalSets} Sets Completed</span>
+              </div>
+              <div style="font-size:0.75rem; color:#2dd4bf; margin-bottom:6px;">
+                ${h.totalVolume > 0 ? 'Total Load: ' + h.totalVolume.toLocaleString() + ' lbs' : ''}
+              </div>
+              <table class="history-table">
+                ${exRows}
+              </table>
+              <button onclick="deleteHistoryEntry(${h.id})" style="background:none; border:none; color:#ef4444; font-size:0.72rem; cursor:pointer; margin-top:8px;">Delete Entry</button>
+            </div>
+          `;
+        });
+
+        html += `<button class="btn-secondary" onclick="clearAllHistory()" style="margin-top:10px; color:#ef4444;">Clear All Workout History</button>`;
+      }
+      container.innerHTML = html;
+    }
+
+    function deleteHistoryEntry(id) {
+      if (confirm("Delete this workout entry?")) {
+        let history = JSON.parse(localStorage.getItem('workout_history') || '[]');
+        history = history.filter(h => h.id !== id);
+        localStorage.setItem('workout_history', JSON.stringify(history));
+        renderHistory(document.getElementById('appContainer'));
+      }
+    }
+
+    function clearAllHistory() {
+      if (confirm("Are you sure you want to erase all saved workout logs?")) {
+        localStorage.removeItem('workout_history');
+        renderHistory(document.getElementById('appContainer'));
+      }
     }
 
     function renderRunningLog(container) {
@@ -385,7 +553,7 @@
 
       container.innerHTML = `
         <div class="exercise-card">
-          <div class="ex-title" style="margin-bottom:12px;">Log a Run</div>
+          <div class="ex-title" style="margin-bottom:10px;">Log a Run</div>
           <div class="form-group">
             <label>Run Type</label>
             <select id="runType" class="form-control">
@@ -426,27 +594,23 @@
           </div>
           <button class="btn-action" onclick="saveRun()">Save Run Entry</button>
         </div>
-        <div style="margin-top:20px;">
-          <h3 style="font-size:1rem; font-weight:700; margin-bottom:8px;">Recent Run History</h3>
-          ${listHtml || '<div style="color:var(--text-muted); font-size:0.85rem;">No runs logged yet.</div>'}
+        <div style="margin-top:16px;">
+          <h3 style="font-size:0.95rem; font-weight:700; margin-bottom:8px;">Recent Run History</h3>
+          ${listHtml || '<div style="color:var(--text-muted); font-size:0.8rem;">No runs logged yet.</div>'}
         </div>
       `;
     }
 
-    function saveVal(key, val) {
-      localStorage.setItem(key, val);
-    }
+    function saveVal(key, val) { localStorage.setItem(key, val); }
 
     function toggleDone(key, btn, restSecs) {
       const isDone = btn.classList.toggle('completed');
       localStorage.setItem(key, isDone);
-      if (isDone) {
-        startTimer(restSecs);
-      }
+      if (isDone) startTimer(restSecs);
     }
 
-    function resetDayLogs(tabKey) {
-      if (confirm("Reset completion checkmarks for this workout? (Saved weights/reps will stay)")) {
+    function resetDayChecks(tabKey) {
+      if (confirm("Reset completion checkmarks for this workout?")) {
         for (let i = 0; i < 10; i++) {
           for (let s = 1; s <= 6; s++) {
             localStorage.removeItem(`log_${tabKey}_ex${i}_s${s}_done`);
@@ -477,7 +641,7 @@
     function switchTab(tabKey) {
       activeTab = tabKey;
       document.querySelectorAll('.tab-btn').forEach((btn, idx) => {
-        const keys = ['upperA', 'lowerA', 'upperB', 'lowerB', 'running'];
+        const keys = ['upperA', 'lowerA', 'upperB', 'lowerB', 'history', 'running'];
         btn.classList.toggle('active', keys[idx] === tabKey);
       });
       renderRoutine(tabKey);
