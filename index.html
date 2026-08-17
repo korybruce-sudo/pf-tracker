@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>PF Fit & Run Tracker</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --card-border: #334155;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent: #0d9488;
+      --accent-hover: #14b8a6;
+      --accent-glow: rgba(13, 148, 136, 0.25);
+      --danger: #ef4444;
+      --success: #10b981;
+      --tier-badge: #0284c7;
+      --radius: 12px;
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: var(--font); }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      padding: 16px;
+      padding-bottom: 90px;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+      padding-top: 10px;
+    }
+    header h1 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: -0.5px;
+    }
+    header p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+    /* Tab Navigation */
+    .tab-bar {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 16px;
+      scrollbar-width: none;
+    }
+    .tab-bar::-webkit-scrollbar { display: none; }
+    .tab-btn {
+      flex: 0 0 auto;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .tab-btn.active {
+      background: var(--accent);
+      color: #ffffff;
+      border-color: var(--accent);
+      box-shadow: 0 0 12px var(--accent-glow);
+    }
+    /* Rest Timer Floating Widget */
+    .timer-banner {
+      background: #111827;
+      border: 1px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+    .timer-display {
+      font-size: 1.5rem;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      color: #38bdf8;
+    }
+    .timer-controls button {
+      background: var(--accent);
+      border: none;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-left: 6px;
+    }
+    .timer-controls button.cancel {
+      background: #475569;
+    }
+    /* Exercise Card */
+    .exercise-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 14px;
+      margin-bottom: 14px;
+    }
+    .ex-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+    .ex-title {
+      font-size: 1.02rem;
+      font-weight: 700;
+      color: #fff;
+    }
+    .ex-equip {
+      font-size: 0.78rem;
+      color: #38bdf8;
+      margin-top: 2px;
+    }
+    .tier-tag {
+      font-size: 0.68rem;
+      background: #0369a1;
+      color: #e0f2fe;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .ex-meta {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+    /* Set Rows */
+    .set-row {
+      display: grid;
+      grid-template-columns: 32px 1fr 1fr 40px;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 8px;
+      background: rgba(15, 23, 42, 0.6);
+      padding: 6px 10px;
+      border-radius: 8px;
+    }
+    .set-num {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-align: center;
+    }
+    .set-input {
+      background: #0f172a;
+      border: 1px solid var(--card-border);
+      border-radius: 6px;
+      color: #fff;
+      font-size: 0.85rem;
+      padding: 6px 8px;
+      text-align: center;
+      width: 100%;
+    }
+    .set-input:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    .check-btn {
+      height: 32px;
+      width: 36px;
+      background: #334155;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    .check-btn.completed {
+      background: var(--success);
+    }
+    /* Quick Actions */
+    .btn-action {
+      display: inline-block;
+      width: 100%;
+      background: var(--accent);
+      color: white;
+      text-align: center;
+      padding: 12px;
+      border-radius: var(--radius);
+      font-size: 0.9rem;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    /* Running Log Form */
+    .form-group {
+      margin-bottom: 12px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+    .form-control {
+      width: 100%;
+      background: #0f172a;
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      color: #fff;
+      padding: 8px 10px;
+      font-size: 0.88rem;
+    }
+    .history-card {
+      background: var(--card-bg);
+      border-left: 4px solid var(--accent);
+      padding: 10px 12px;
+      border-radius: 6px;
+      margin-bottom: 8px;
+      font-size: 0.82rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>PF Fit & Run Tracker</h1>
+    <p>Upper/Lower Hypertrophy & Running Log</p>
+  </header>
+
+  <!-- Rest Timer Banner -->
+  <div class="timer-banner" id="timerBanner">
+    <div>
+      <div style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase;">Rest Timer</div>
+      <div class="timer-display" id="timerDisplay">02:00</div>
+    </div>
+    <div class="timer-controls">
+      <button onclick="startTimer(90)">90s</button>
+      <button onclick="startTimer(120)">2m</button>
+      <button onclick="startTimer(150)">2.5m</button>
+      <button class="cancel" onclick="resetTimer()">Reset</button>
+    </div>
+  </div>
+
+  <!-- Day Selection Tabs -->
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab('upperA')">Day 1: Upper A</button>
+    <button class="tab-btn" onclick="switchTab('lowerA')">Day 2: Lower A</button>
+    <button class="tab-btn" onclick="switchTab('upperB')">Day 4: Upper B</button>
+    <button class="tab-btn" onclick="switchTab('lowerB')">Day 5: Lower B</button>
+    <button class="tab-btn" onclick="switchTab('running')">Running Log</button>
+  </div>
+
+  <!-- Main Content Container -->
+  <main id="appContainer"></main>
+
+  <script>
+    const workouts = {
+      upperA: {
+        name: "Day 1: Upper A (Strength & Power)",
+        exercises: [
+          { name: "Incline Smith Machine Press", tier: "Tier 1", equip: "Smith Machine + Incline Bench", sets: 4, reps: "8-10", rest: 150 },
+          { name: "Wide-Grip Lat Pulldown", tier: "Tier 1", equip: "Lat Pulldown Station", sets: 4, reps: "8-10", rest: 120 },
+          { name: "Seated Cable Row", tier: "Tier 2", equip: "Low Cable Row Station", sets: 3, reps: "8-10", rest: 120 },
+          { name: "Pec Fly Machine", tier: "Tier 2", equip: "Pec Deck Machine", sets: 3, reps: "10-12", rest: 90 },
+          { name: "Tricep Rope Pushdowns", tier: "Tier 3", equip: "High Cable Tower", sets: 3, reps: "10-12", rest: 90 },
+          { name: "EZ-Bar / Fixed Barbell Curl", tier: "Tier 3", equip: "Fixed Barbell Rack", sets: 3, reps: "8-10", rest: 90 }
+        ]
+      },
+      lowerA: {
+        name: "Day 2: Lower A (Quads & Knee Resilience)",
+        exercises: [
+          { name: "Smith Machine Squat", tier: "Tier 1", equip: "Smith Machine (Bar ~20-25 lbs)", sets: 4, reps: "8-10", rest: 150 },
+          { name: "DB Bulgarian Split Squat", tier: "Tier 2", equip: "Dumbbells + Flat Bench", sets: 3, reps: "8-10 / leg", rest: 120 },
+          { name: "Leg Extension Machine", tier: "Tier 2", equip: "Pin-Loaded Machine", sets: 3, reps: "12-15", rest: 90 },
+          { name: "Lying / Seated Leg Curl", tier: "Tier 2", equip: "Pin-Loaded Machine", sets: 3, reps: "10-12", rest: 90 },
+          { name: "Smith Standing Calf Raise", tier: "Tier 3", equip: "Smith Machine + Plate/Step", sets: 4, reps: "12-15", rest: 60 },
+          { name: "Hanging Knee / Leg Raises", tier: "Tier 3", equip: "Captain's Chair Tower", sets: 3, reps: "12-15", rest: 60 }
+        ]
+      },
+      upperB: {
+        name: "Day 4: Upper B (Delts & Hypertrophy)",
+        exercises: [
+          { name: "Flat Dumbbell Bench Press", tier: "Tier 1", equip: "Dumbbells + Flat Bench", sets: 4, reps: "8-10", rest: 150 },
+          { name: "Neutral-Grip Lat Pulldown", tier: "Tier 1", equip: "Cable Station (V-Bar)", sets: 3, reps: "8-10", rest: 120 },
+          { name: "Seated DB Shoulder Press", tier: "Tier 2", equip: "Dumbbells + Upright Bench", sets: 3, reps: "8-12", rest: 120 },
+          { name: "Cable Lateral Raises", tier: "Tier 3", equip: "Low Cable Tower", sets: 3, reps: "12-15", rest: 60 },
+          { name: "Face Pulls", tier: "Tier 3", equip: "Cable Tower (Rope at Eye Level)", sets: 3, reps: "12-15", rest: 90 },
+          { name: "Incline DB Bicep Curl", tier: "Tier 3", equip: "Dumbbells + Incline Bench", sets: 3, reps: "10-12", rest: 90 },
+          { name: "Overhead Cable Rope Extension", tier: "Tier 3", equip: "Cable Tower", sets: 3, reps: "10-12", rest: 90 }
+        ]
+      },
+      lowerB: {
+        name: "Day 5: Lower B (Hips & Posterior Chain)",
+        exercises: [
+          { name: "Dumbbell Romanian Deadlift", tier: "Tier 1", equip: "Dumbbells", sets: 4, reps: "8-10", rest: 150 },
+          { name: "Smith Machine Hip Thrust", tier: "Tier 1", equip: "Smith Machine + Bench Pad", sets: 3, reps: "10-12", rest: 120 },
+          { name: "Seated / Lying Hamstring Curl", tier: "Tier 2", equip: "Pin-Loaded Machine", sets: 3, reps: "10-12", rest: 90 },
+          { name: "Hip Abduction Machine", tier: "Tier 2", equip: "Pin-Loaded Outer Thigh", sets: 3, reps: "15-20", rest: 60 },
+          { name: "Dumbbell Step-Ups", tier: "Tier 2", equip: "Dumbbells + Plyo Box", sets: 3, reps: "10 / leg", rest: 90 },
+          { name: "Cable / Machine Ab Crunch", tier: "Tier 3", equip: "Cable Tower or Machine", sets: 3, reps: "12-15", rest: 60 }
+        ]
+      }
+    };
+
+    let activeTab = 'upperA';
+    let timerInterval = null;
+    let secondsLeft = 120;
+
+    function renderRoutine(tabKey) {
+      const container = document.getElementById('appContainer');
+      if (tabKey === 'running') {
+        renderRunningLog(container);
+        return;
+      }
+      const data = workouts[tabKey];
+      let html = `<div style="margin-bottom: 14px;"><h2 style="font-size: 1.15rem; font-weight:700;">${data.name}</h2></div>`;
+      
+      data.exercises.forEach((ex, exIdx) => {
+        html += `
+          <div class="exercise-card">
+            <div class="ex-header">
+              <div>
+                <div class="ex-title">${ex.name}</div>
+                <div class="ex-equip">${ex.equip}</div>
+              </div>
+              <span class="tier-tag">${ex.tier}</span>
+            </div>
+            <div class="ex-meta">Target: ${ex.sets} sets × ${ex.reps} reps | Rest: ${ex.rest}s</div>
+            <div>
+        `;
+        for (let s = 1; s <= ex.sets; s++) {
+          const storageKeyWt = `log_${tabKey}_ex${exIdx}_s${s}_wt`;
+          const storageKeyReps = `log_${tabKey}_ex${exIdx}_s${s}_reps`;
+          const storageKeyDone = `log_${tabKey}_ex${exIdx}_s${s}_done`;
+          const valWt = localStorage.getItem(storageKeyWt) || '';
+          const valReps = localStorage.getItem(storageKeyReps) || '';
+          const isDone = localStorage.getItem(storageKeyDone) === 'true';
+
+          html += `
+            <div class="set-row">
+              <div class="set-num">S${s}</div>
+              <input type="text" class="set-input" placeholder="lbs" value="${valWt}" onchange="saveVal('${storageKeyWt}', this.value)" />
+              <input type="text" class="set-input" placeholder="reps" value="${valReps}" onchange="saveVal('${storageKeyReps}', this.value)" />
+              <button class="check-btn ${isDone ? 'completed' : ''}" onclick="toggleDone('${storageKeyDone}', this, ${ex.rest})">✓</button>
+            </div>
+          `;
+        }
+        html += `</div></div>`;
+      });
+
+      html += `<button class="btn-action" onclick="resetDayLogs('${tabKey}')">Clear Today's Checks for Next Session</button>`;
+      container.innerHTML = html;
+    }
+
+    function renderRunningLog(container) {
+      const runs = JSON.parse(localStorage.getItem('saved_runs') || '[]');
+      let listHtml = runs.map(r => `
+        <div class="history-card">
+          <div style="font-weight:700; color:#fff; display:flex; justify-content:space-between;">
+            <span>${r.type}</span>
+            <span style="color:#38bdf8;">${r.date}</span>
+          </div>
+          <div style="color:var(--text-muted); margin-top:3px;">
+            ${r.distance ? r.distance + ' km • ' : ''}${r.duration} mins • Zone: ${r.zone} • RPE: ${r.rpe}/10
+          </div>
+          ${r.notes ? `<div style="color:#e2e8f0; font-style:italic; margin-top:4px;">"${r.notes}"</div>` : ''}
+        </div>
+      `).join('');
+
+      container.innerHTML = `
+        <div class="exercise-card">
+          <div class="ex-title" style="margin-bottom:12px;">Log a Run</div>
+          <div class="form-group">
+            <label>Run Type</label>
+            <select id="runType" class="form-control">
+              <option value="Zone 2 Base Run">Zone 2 Base Run (Easy)</option>
+              <option value="Tempo / Threshold">Tempo / Threshold Run</option>
+              <option value="Intervals / Speedwork">Intervals / Speedwork</option>
+              <option value="Recovery Jog / Walk">Recovery Jog / Walk</option>
+            </select>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+            <div class="form-group">
+              <label>Distance (km or mi)</label>
+              <input type="text" id="runDist" class="form-control" placeholder="e.g. 5.0" />
+            </div>
+            <div class="form-group">
+              <label>Duration (mins)</label>
+              <input type="text" id="runTime" class="form-control" placeholder="e.g. 32" />
+            </div>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+            <div class="form-group">
+              <label>Heart Rate Zone</label>
+              <select id="runZone" class="form-control">
+                <option value="Zone 2">Zone 2 (Aerobic)</option>
+                <option value="Zone 3">Zone 3 (Moderate)</option>
+                <option value="Zone 4">Zone 4 (Threshold)</option>
+                <option value="Zone 5">Zone 5 (Max Effort)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>RPE Effort (1-10)</label>
+              <input type="number" id="runRpe" class="form-control" min="1" max="10" placeholder="6" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Leg Recovery & Joint Feel Notes</label>
+            <input type="text" id="runNotes" class="form-control" placeholder="Felt loose, no knee pain" />
+          </div>
+          <button class="btn-action" onclick="saveRun()">Save Run Entry</button>
+        </div>
+        <div style="margin-top:20px;">
+          <h3 style="font-size:1rem; font-weight:700; margin-bottom:8px;">Recent Run History</h3>
+          ${listHtml || '<div style="color:var(--text-muted); font-size:0.85rem;">No runs logged yet.</div>'}
+        </div>
+      `;
+    }
+
+    function saveVal(key, val) {
+      localStorage.setItem(key, val);
+    }
+
+    function toggleDone(key, btn, restSecs) {
+      const isDone = btn.classList.toggle('completed');
+      localStorage.setItem(key, isDone);
+      if (isDone) {
+        startTimer(restSecs);
+      }
+    }
+
+    function resetDayLogs(tabKey) {
+      if (confirm("Reset completion checkmarks for this workout? (Saved weights/reps will stay)")) {
+        for (let i = 0; i < 10; i++) {
+          for (let s = 1; s <= 6; s++) {
+            localStorage.removeItem(`log_${tabKey}_ex${i}_s${s}_done`);
+          }
+        }
+        renderRoutine(tabKey);
+      }
+    }
+
+    function saveRun() {
+      const type = document.getElementById('runType').value;
+      const distance = document.getElementById('runDist').value;
+      const duration = document.getElementById('runTime').value;
+      const zone = document.getElementById('runZone').value;
+      const rpe = document.getElementById('runRpe').value;
+      const notes = document.getElementById('runNotes').value;
+      if (!duration) { alert('Please enter duration'); return; }
+
+      const runs = JSON.parse(localStorage.getItem('saved_runs') || '[]');
+      runs.unshift({
+        date: new Date().toLocaleDateString(undefined, { month: 'short', day: 'numeric' }),
+        type, distance, duration, zone, rpe, notes
+      });
+      localStorage.setItem('saved_runs', JSON.stringify(runs));
+      renderRoutine('running');
+    }
+
+    function switchTab(tabKey) {
+      activeTab = tabKey;
+      document.querySelectorAll('.tab-btn').forEach((btn, idx) => {
+        const keys = ['upperA', 'lowerA', 'upperB', 'lowerB', 'running'];
+        btn.classList.toggle('active', keys[idx] === tabKey);
+      });
+      renderRoutine(tabKey);
+    }
+
+    function startTimer(seconds) {
+      clearInterval(timerInterval);
+      secondsLeft = seconds;
+      updateTimerUI();
+      timerInterval = setInterval(() => {
+        secondsLeft--;
+        if (secondsLeft <= 0) {
+          clearInterval(timerInterval);
+          document.getElementById('timerDisplay').innerText = "DONE!";
+          if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+        } else {
+          updateTimerUI();
+        }
+      }, 1000);
+    }
+
+    function resetTimer() {
+      clearInterval(timerInterval);
+      secondsLeft = 120;
+      updateTimerUI();
+    }
+
+    function updateTimerUI() {
+      const m = Math.floor(secondsLeft / 60).toString().padStart(2, '0');
+      const s = (secondsLeft % 60).toString().padStart(2, '0');
+      document.getElementById('timerDisplay').innerText = `${m}:${s}`;
+    }
+
+    // Initial render
+    renderRoutine('upperA');
+  </script>
+</body>
+</html>
